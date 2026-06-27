@@ -38,37 +38,40 @@ const messageSchema = new mongoose.Schema({
 const Message = mongoose.model('Message', messageSchema);
 
 // ── AUTOMATED SEED ENGINE ──
+// Inside server.js ...
+
 async function seedDatabase() {
   try {
     const count = await Project.countDocuments();
+    // If the database is empty, insert the fake data
     if (count === 0) {
       const defaultProjects = [
+        // ... Your existing 3 projects are here ...
+        
+        // Add your new fake data objects below:
         {
-          title: "Banker's Algorithm Simulator",
-          type: "Operating Systems · Core Logic",
-          desc: "An execution engine simulating process allocation matrices to safely avoid resource deadlocks. Evaluates safety configurations dynamically.",
-          tags: ["Java", "Data Structures", "Simulation"]
+          title: "E-Commerce Payment Gateway",
+          type: "Full Stack Integration",
+          desc: "Implemented a secure, mock payment gateway using Stripe API to process transactional data in real-time.",
+          tags: ["Node.js", "Express", "API"]
         },
         {
-          title: "8086 ALP Suite",
-          type: "Microprocessor Architecture",
-          desc: "A modular portfolio of 8086 Assembly Language Programs designed for low-level validation, including string display operations mapping directly to data registers.",
-          tags: ["8086 ALP", "TASM/MASM", "Registers"]
-        },
-        {
-          title: "Dynamic Enterprise Portal",
-          type: "Web Technologies",
-          desc: "A relational web app deploying server-side session management tools to manipulate and track multi-client transactions securely.",
-          tags: ["Java Servlets", "JSP", "MySQL Connection"]
+          title: "Data Visualization Dashboard",
+          type: "Frontend Analytics",
+          desc: "A responsive dashboard rendering real-time JSON data streams into interactive charts for performance monitoring.",
+          tags: ["React", "D3.js", "MongoDB"]
         }
       ];
       await Project.insertMany(defaultProjects);
       console.log('Database seeded with baseline projects.');
+    } else {
+      console.log('Database already contains data. Skipping seed.');
     }
   } catch (err) {
     console.error('Seeding error:', err);
   }
 }
+
 
 // ── LIVE API ROUTING ──
 app.get('/api/projects', async (req, res) => {
